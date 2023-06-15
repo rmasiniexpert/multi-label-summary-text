@@ -1,9 +1,9 @@
-import streamlit as st
-import numpy as np
-import pandas as pd
+#import streamlit as st
+#import numpy as np
+#import pandas as pd
 # import plotly.express as px
 # from plotly.subplots import make_subplots
-import json
+#import json
 
 # Reference: https://huggingface.co/spaces/team-zero-shot-nli/zero-shot-nli/blob/main/utils.py
 # def plot_result(top_topics, scores):
@@ -74,12 +74,12 @@ import json
 #     st.plotly_chart(fig)
 
 
-def examples_load():
-    with open("examples.json") as f:
-        data=json.load(f)
-    return data['text'], data['long_text_license'], data['labels'], data['ground_labels']
+#def examples_load():
+#    with open("examples.json") as f:
+#        data=json.load(f)
+#    return data['text'], data['long_text_license'], data['labels'], data['ground_labels']
 
-def example_long_text_load():
-    with open("example_long_text.txt", "r") as f:
-        text_data = f.read()
-    return text_data
+#def example_long_text_load():
+#    with open("example_long_text.txt", "r") as f:
+#        text_data = f.read()
+#    return text_data
