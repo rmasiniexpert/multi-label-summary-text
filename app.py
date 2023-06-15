@@ -21,42 +21,23 @@ ex_long_text = example_long_text_load()
 ###################################
 ######## App Description ##########
 ###################################
-st.markdown("### Long Text Summarization & Multi-Label Classification")
-st.write("This app summarizes and then classifies your long text(s) with multiple labels using [BART Large CNN](https://huggingface.co/facebook/bart-large-cnn) for the summarization task and [BART Large MNLI](https://huggingface.co/facebook/bart-large-mnli) for the multi-labels matching. The keywords are independently generated using [KeyBERT](https://github.com/MaartenGr/KeyBERT) and not used in any downstream tasks.")
+st.markdown("## Summarization & Multi-Label Classification for Long texts")
+st.write("This app summarizes and then classifies your long text(s) with multiple labels. The keywords are independently generated.")
 st.write("__Inputs__: User enters their own custom text(s) and labels.")
 st.write("__Outputs__: A summary of the text, likelihood match score for each label and a downloadable csv of the results. \
     Includes additional options to generate a list of keywords and/or evaluate results against a list of ground truth labels, if available.")
-
-
-
-###################################
-########  Example Input  ##########
-###################################
-example_button = st.button(label='See Example')
-if example_button:
-    example_text = ex_long_text #ex_text
-    display_text = 'Excerpt from Frankenstein:' + example_text + '"\n\n' + "[This is an excerpt from Project Gutenberg's Frankenstein. " + ex_license + "]"
-    input_labels = ex_labels
-    input_glabels = ex_glabels
-    title_name = 'Frankenstein, Chapter 3'
-else:
-    display_text = ''
-    input_labels = ''
-    input_glabels = ''
-    title_name = 'Submitted Text'
-
 
 
 with st.form(key='my_form'):
     ###################################
     ########   Form: Step 1  ##########
     ###################################
-    st.markdown("##### Step 1: Upload Text")
-    text_input = st.text_area("Input any text you want to summarize & classify here (keep in mind very long text will take a while to process):", display_text)
+    st.markdown("### Step 1: Upload Text")
+    text_input = st.text_area("Paste the text you want to summarize & classify here (keep in mind very long text will take a while to process):", display_text)
 
     text_csv_expander = st.expander(label=f'Want to upload multiple texts at once? Expand to upload your text files below.', expanded=False)
     with text_csv_expander:
-        st.markdown('##### Choose one of the options below:')
+        st.markdown('### Choose one of the options below:')
         st.write("__Option A:__")
         uploaded_text_files = st.file_uploader(label="Upload file(s) that end with the .txt suffix",
                                               accept_multiple_files=True, key = 'text_uploader',
@@ -67,7 +48,7 @@ with st.form(key='my_form'):
                                                    type='csv')
 
     if text_input == display_text and display_text != '':
-        text_input = example_text
+        text_input = 'Why is so important to have long text summarized?'
 
     gen_keywords = st.radio(
         "Generate keywords from text? (independent from the input labels below)",
@@ -83,7 +64,7 @@ with st.form(key='my_form'):
     ########   Form: Step 2  ##########
     ###################################
     st.write('\n')
-    st.markdown("##### Step 2: Enter Labels")
+    st.markdown("### Step 2: Enter Labels")
     labels = st.text_input('Enter possible topic labels, which can be either keywords and/or general themes (comma-separated):',input_labels, max_chars=2000)
     labels = list(set([x.strip() for x in labels.strip().split(',') if len(x.strip()) > 0]))
 
@@ -117,8 +98,6 @@ with st.form(key='my_form'):
     #      0.0, 1.0, (0.5))
 
     submit_button = st.form_submit_button(label='Submit')
-
-st.write("_For improvments/suggestions, please file an issue here: https://github.com/pleonova/multi-label-summary-text_")
 
 
 ###################################
