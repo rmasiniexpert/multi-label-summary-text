@@ -42,32 +42,31 @@ def keyword_gen(kw_model, sequence:str):
     top_n=10)
   return keywords
 
-
-
 # Reference: https://huggingface.co/facebook/bart-large-mnli
+#@st.cache(allow_output_mutation=True)
+#def load_summary_model():
+#    model_name = "facebook/bart-large-cnn"
+#    summarizer = pipeline(task='summarization', model=model_name)
+#    return summarizer
+
 @st.cache(allow_output_mutation=True)
 def load_summary_model():
-    model_name = "facebook/bart-large-cnn"
-    summarizer = pipeline(task='summarization', model=model_name)
-    return summarizer
-
-# def load_summary_model():
-#     model_name = "facebook/bart-large-mnli"
-#     tokenizer = BartTokenizer.from_pretrained(model_name)
-#     model = BartForConditionalGeneration.from_pretrained(model_name)
-#     summarizer = pipeline(task='summarization', model=model, tokenizer=tokenizer, framework='pt')
-#     return summarizer
+     model_name = "facebook/bart-large-mnli"
+     tokenizer = BartTokenizer.from_pretrained(model_name)
+     model = BartForConditionalGeneration.from_pretrained(model_name)
+     summarizer = pipeline(task='summarization', model=model, tokenizer=tokenizer, framework='pt')
+     return summarizer
 
 def summarizer_gen(summarizer, sequence:str, maximum_tokens:int, minimum_tokens:int):
-	output = summarizer(sequence, 
-    num_beams=4, 
-    length_penalty=2.0,
-    max_length=maximum_tokens, 
-    min_length=minimum_tokens, 
-    do_sample=False, 
-    early_stopping = True,
-    no_repeat_ngram_size=3)
-	return output[0].get('summary_text')
+    output = summarizer(sequence, 
+        num_beams=4, 
+        length_penalty=2.0,
+        max_length=maximum_tokens, 
+        min_length=minimum_tokens, 
+        do_sample=False, 
+        early_stopping = True,
+        no_repeat_ngram_size=3)
+    return output[0].get('summary_text')
 
 
 # # Reference: https://www.datatrigger.org/post/nlp_hugging_face/
